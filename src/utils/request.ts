@@ -3,8 +3,8 @@ import axios from 'axios'
 import qs from 'qs'
 
 const service = axios.create({
-    baseURL: 'api/',
-    headers: {'Accept': 'application/xml'},
+    baseURL: '/api/',
+    headers: {'Accept': 'application/json'},
     timeout: 1000,
     onUploadProgress: function (progressEvent) {
         console.log(progressEvent)

@@ -1,0 +1,31 @@
+server {
+    listen ${SERVER_PORT};
+    server_name localhost;
+    gzip_static on;
+    gzip off;
+    gzip_comp_level 9;
+    gzip_min_length 1k;
+    gzip_types application/javascript application/json text/css;
+
+    # 限制外网访问内网 actuator 相关路径
+    location ~ ^(/[^/]*)?/actuator(/.*)?$ {
+        return 403;
+    }
+    location / {
+        root /usr/share/nginx/general/;
+        try_files $uri $uri/ /index.html;
+        index index.html index.htm;
+    }
+
+    location /api/ {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # websocket参数
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass ${API_SERVER}/;
+    }
+}

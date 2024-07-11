@@ -1,7 +1,15 @@
-import { defineConfig } from 'vite'
+import {ConfigEnv, defineConfig, loadEnv, UserConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({mode, command}: ConfigEnv): UserConfig => {
+  const env = loadEnv(mode, process.cwd())
+  return {
+    plugins: [react()], server: {
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          target: 'http://localhost:9528', changeOrigin: true
+        }
+      }
+    }
+  }
 })

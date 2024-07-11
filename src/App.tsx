@@ -1,34 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useState} from 'react';
+import {BrowserRouter, Navigate, NavLink, Route, Routes} from 'react-router-dom'
+import {HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UserAddOutlined, UserOutlined} from '@ant-design/icons';
+import {Button, Layout, Menu, theme} from 'antd'
+import Index from './pages/Index'
+import User from './pages/userService/user/User'
+
+const {Header, Sider, Content, Footer} = Layout;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: {colorBgContainer, borderRadiusLG},
+  } = theme.useToken();
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Layout style={{width: '100vw', height: '100vh'}}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div className="demo-logo-vertical"
+               style={{height: '32px', margin: '16px', background: 'rgba(255, 255, 255, 0.2)', borderRadius: '6px'}}/>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            items={[
+              {key: '1', icon: <HomeOutlined/>, label: <NavLink to="/index">index</NavLink>},
+              {
+                key: '2',
+                label: '用户服务',
+                icon: <UserOutlined/>,
+                children: [
+                  {key: '4', label: <NavLink to="/user">用户管理</NavLink>, icon: <UserAddOutlined/>}
+                ]
+              }
+            ]}
+          />
+        </Sider>
+        <Layout>
+          <Header style={{padding: 0, background: colorBgContainer}}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{fontSize: '16px', width: 64, height: 64}}
+            />
+          </Header>
+          <Content style={{
+            margin: '16px 10px',
+            padding: 16,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+            overflow: 'auto'
+          }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/index"/>}/>
+              <Route path="/index" element={<Index/>}/>
+              <Route path="/user" element={<User/>}/>
+            </Routes>
+          </Content>
+          <Footer style={{textAlign: 'center', padding: '0 50px 8px'}}>
+            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          </Footer>
+        </Layout>
+      </Layout>
+    </BrowserRouter>
   )
 }
 

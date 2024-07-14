@@ -69,7 +69,7 @@ export default function User() {
   const onSearch = (value: string) => {
     searchParams.name = value
     setLoading(true)
-    request.get('user/page', {params: searchParams}).then(res => {
+    request.get('user_service/user/page', {params: searchParams}).then(res => {
       setSearchResult(res.data.data)
       setLoading(false)
       console.log(res)

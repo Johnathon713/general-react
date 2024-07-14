@@ -13,12 +13,14 @@
     "antd": "^5.19.1",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
+    "immer": "^10.1.1",
     "nanoid": "^5.0.7",
     "pubsub-js": "^1.9.4",
     "qs": "^6.12.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.24.1"
+    "react-router-dom": "^6.24.1",
+    "use-immer": "^0.10.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",

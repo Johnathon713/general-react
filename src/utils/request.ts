@@ -17,4 +17,11 @@ const service = axios.create({
     }
 })
 
+service.interceptors.response.use(response => {
+  if (response.status === 200 && response.data && response.data.status === 200) {
+    return response.data
+  } else {
+    return Promise.reject(response)
+  }
+})
 export default service

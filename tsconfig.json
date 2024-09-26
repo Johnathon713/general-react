@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    // 指定编译输出的 JavaScript 版本（如 "ES3", "ES5", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "ESNext"）
+    "target": "ESNext",
     "useDefineForClassFields": true,
+    // 指定编译过程中需要包含的类型定义库（如 "ES6", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "ES2021", "Dom", "WebWorker", "ScriptHost", "ESNext" 等）
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // 指定编译后代码使用的模块系统（如 "commonjs", "amd", "system", "umd", "es6"）
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -16,9 +19,13 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

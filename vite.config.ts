@@ -1,5 +1,6 @@
 import {ConfigEnv, defineConfig, loadEnv, UserConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import path from "path";
 
 export default defineConfig(({mode, command}: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd())
@@ -13,6 +14,12 @@ export default defineConfig(({mode, command}: ConfigEnv): UserConfig => {
           target: 'http://localhost:9528', changeOrigin: true
         }
       }
-    }
+    },
+    resolve: {
+      alias: {
+        '~': path.resolve(__dirname, './'),
+        '@': path.resolve(__dirname, './src')
+      }
+    },
   }
 })

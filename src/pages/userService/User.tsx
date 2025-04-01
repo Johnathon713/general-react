@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {Button, Divider, Flex, Form, Input, message, Modal, Radio, Table, TableColumnsType, Tag} from 'antd'
 import {ExclamationCircleOutlined, SearchOutlined} from '@ant-design/icons'
 import request from "../../utils/request.ts";
@@ -9,7 +9,7 @@ const {confirm} = Modal
 
 const User: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage()
-
+  const test = useRef(null)
   interface PageType {
     current: number
     size: number
@@ -82,7 +82,7 @@ const User: React.FC = () => {
   const {Search} = Input
   const onSearch = (value: string) => {
     searchParams.name = value
-    setLoading(true)
+    setLoading(false)
     request.get('user_service/user/page', {params: searchParams}).then(res => {
       setSearchResult(res.data)
       setLoading(false)

@@ -4,7 +4,7 @@ MAINTAINER Johnathon
 
 WORKDIR /usr/share/nginx/general
 
-ENV API_SERVER=http://127.0.0.1:9528
+ENV API_SERVER=http://127.0.0.1:9527
 
 ENV SERVER_PORT=80
 

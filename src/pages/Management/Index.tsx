@@ -29,25 +29,25 @@ const Management: React.FC = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={[{key: '10', icon: <HomeOutlined/>, label: <NavLink to="/index">主页</NavLink>}, {
+          items={[{key: '10', icon: <HomeOutlined/>, label: <NavLink to="/management/index">主页</NavLink>}, {
             key: '20',
             label: '用户服务',
             icon: <UserOutlined/>,
             children: [{
               key: '21',
-              label: <NavLink to="/management/userService/user">用户管理</NavLink>,
+              label: <NavLink to="/management/authService/user">用户管理</NavLink>,
               icon: <UserAddOutlined/>
             }, {
               key: '22',
-              label: <NavLink to="/management/userService/organization">组织管理</NavLink>,
+              label: <NavLink to="/management/authService/organization">组织管理</NavLink>,
               icon: <UsergroupAddOutlined/>
             }, {
               key: '23',
-              label: <NavLink to="/management/userService/role">角色管理</NavLink>,
+              label: <NavLink to="/management/authService/role">角色管理</NavLink>,
               icon: <UserSwitchOutlined/>
             }, {
               key: '24',
-              label: <NavLink to="/management/userService/permission">权限管理</NavLink>,
+              label: <NavLink to="/management/authService/permission">权限管理</NavLink>,
               icon: <SecurityScanOutlined/>
             }]
           }, {

@@ -9,9 +9,10 @@ export default defineConfig(({mode, command}: ConfigEnv): UserConfig => {
       host: true,
       port: 5173,
       open: true,
+      strictPort: true,
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: 'http://localhost:9528', changeOrigin: true
+          target: 'http://localhost:9527', changeOrigin: true
         }
       }
     },

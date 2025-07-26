@@ -21,7 +21,8 @@ const Management: React.FC = () => {
   const {token: {colorBgContainer, borderRadiusLG}} = theme.useToken();
   const containerRef = useRef(null);
   // @ts-ignore
-  return (<Layout style={{height: '100vh'}}>
+  return (
+    <Layout style={{height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical"
              style={{height: '32px', margin: '16px', background: 'rgba(255, 255, 255, 0.2)', borderRadius: '6px'}}/>
@@ -73,26 +74,25 @@ const Management: React.FC = () => {
             }}
           />
         </Header>
-        <Content
-          ref={containerRef}
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          <div style={{padding: 10}}>
+        <div style={{overflow: 'auto', padding: '1em'}} ref={containerRef}>
+          <Content
+            style={{
+              padding: '1em',
+              minHeight: 280,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
             <Outlet/>
-            <FloatButton.BackTop visibilityHeight={0} target={() => containerRef.current}/>
-          </div>
-        </Content>
-        <Footer style={{textAlign: 'center', padding: '0 50px 8px'}}>
+            <FloatButton.BackTop target={():HTMLElement | Window | Document => containerRef.current || window}/>
+          </Content>
+        </div>
+        <Footer style={{textAlign: 'center', padding: '0 0 1em'}}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
         </Footer>
       </Layout>
-    </Layout>);
+    </Layout>
+  );
 };
 
 export default Management;

@@ -164,7 +164,7 @@ const User: React.FC = () => {
       columns={columns}
     />
     <Divider/>
-    <Table rowSelection={{type: 'checkbox'}} columns={columns} dataSource={searchResult.records} rowKey={'userId'}/>
+    <Table style={{ height: '1000px'}} rowSelection={{type: 'checkbox'}} columns={columns} dataSource={searchResult.records} rowKey={'userId'}/>
     <Modal title="创建用户" open={open} onOk={handleAddOk} confirmLoading={confirmLoading} onCancel={handleAddCancel}>
       <Form form={form} onValuesChange={onFormLayoutChange} labelCol={{span: 4}}>
         <Form.Item<FieldType> label="用户名" rules={[{required: true, message: '请输入用户名'}]} name="userName">

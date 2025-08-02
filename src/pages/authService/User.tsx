@@ -83,7 +83,7 @@ const User: React.FC = () => {
   const onSearch = (value: string) => {
     searchParams.name = value
     setLoading(false)
-    request.get('auth_service/user/page', {params: searchParams}).then(res => {
+    request.get('/auth_service/user/page', {params: searchParams}).then(res => {
       setSearchResult(res.data)
       setLoading(false)
       console.log(res)

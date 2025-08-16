@@ -1,5 +1,19 @@
 import {useEffect, useRef, useState} from 'react'
-import {Button, Divider, Flex, Form, Input, message, Modal, Radio, Table, TableColumnsType, Tag} from 'antd'
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  Image,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Select,
+  Table,
+  TableColumnsType,
+  Tag
+} from 'antd'
 import {ExclamationCircleOutlined, SearchOutlined} from '@ant-design/icons'
 import request from "../../utils/request.ts";
 import dayjs from "dayjs";
@@ -10,7 +24,7 @@ const {confirm} = Modal
 const User: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const test = useRef(null)
-  interface PageType {
+  interface BaseQuery {
     current: number
     size: number
     orders: Array<Order>
@@ -25,7 +39,7 @@ const User: React.FC = () => {
     name: string
   }
 
-  const searchParams: UserParamType = {current: 1, size: 10, orders: [], name: ''}
+  const searchParams: UserParamType = { current: 1, size: 10, orders: [], name: ''}
   const [searchResult, setSearchResult] = useState<PageDataType>({
     current: 1, pages: 1, records: [], size: 0, total: 0
   })
@@ -60,9 +74,12 @@ const User: React.FC = () => {
   }
 
   const columns: TableColumnsType<DataType> = [
-    {title: 'id', dataIndex: 'userId', hidden: false},
+    {title: 'id', dataIndex: 'userId', hidden: true},
+    {title: '头像', dataIndex: 'avatar', render: (text: string) => <Image height={50} src={text} />, hidden: false},
+    {title: '用户编号', dataIndex: 'userSerialNumber', hidden: false},
     {title: '用户名', dataIndex: 'userName', hidden: true},
     {title: '昵称', dataIndex: 'nickName', hidden: false},
+    {title: '性别', dataIndex: 'gender', hidden: false},
     {title: '邮箱', dataIndex: 'email', hidden: false},
     {title: '手机号', dataIndex: 'phone', render: (text: string) => <Tag color={'green'}>{text}</Tag>, hidden: false},
     {
@@ -83,7 +100,7 @@ const User: React.FC = () => {
   const onSearch = (value: string) => {
     searchParams.name = value
     setLoading(false)
-    request.get('/auth_service/user/page', {params: searchParams}).then(res => {
+    request.get('/auth-service/user/page', {params: searchParams}).then(res => {
       setSearchResult(res.data)
       setLoading(false)
       console.log(res)
@@ -99,10 +116,11 @@ const User: React.FC = () => {
 
   const handleAddOk = () => {
     form.validateFields().then(values => {
+      debugger
       setConfirmLoading(true);
       values.id = null
       values.regChannel = '用户管理'
-      request.post('auth_service/user/save', values).then(res => {
+      request.post('auth-service/user/insert', values).then(res => {
         setOpen(false);
         setConfirmLoading(false);
         messageApi.success('新建成功')
@@ -140,10 +158,20 @@ const User: React.FC = () => {
     userName: string,
     nickName: string,
     password: string,
+    confirmPassword: string,
+    encryption: UserEncryption,
     gender: string,
     email: string,
     phone: string,
     regChannel: string
+  }
+
+  enum UserEncryption {
+    AES = 1,
+    MD5 = 2,
+    SHA1 = 3,
+    SHA256 = 4,
+    SM4 = 5
   }
 
   useEffect(() => {
@@ -176,14 +204,26 @@ const User: React.FC = () => {
         <Form.Item<FieldType> label="密码" rules={[{required: true, message: '请输入密码'}]} name="password">
           <Input placeholder="请输入密码"/>
         </Form.Item>
-        <Form.Item<FieldType> label="确认密码" rules={[{required: true, message: '请再输入一遍密码'}]} name="password">
+        <Form.Item<FieldType> label="确认密码" rules={[{required: true, message: '请再输入一遍密码'}]} name="confirmPassword">
           <Input placeholder="请再输入一遍密码"/>
         </Form.Item>
+        <Form.Item<FieldType> label="加密方式" rules={[{required: true, message: '请选择加密方式'}]} name="encryption">
+          <Select
+            defaultValue="SM4"
+            options={[
+              { value: 'AES', label: 'AES' },
+              { value: 'MD5', label: 'MD5' },
+              { value: 'SHA1', label: 'SHA1' },
+              { value: 'SHA256', label: 'SHA256' },
+              { value: 'SM4', label: 'SM4' },
+            ]}
+          />
+        </Form.Item>
         <Form.Item<FieldType> label="性别" rules={[{required: true, message: '请选择性别'}]} name="gender">
-          <Radio.Group>
-            <Radio.Button value="男">男</Radio.Button>
-            <Radio.Button value="女">女</Radio.Button>
-            <Radio.Button value="其他">其他</Radio.Button>
+          <Radio.Group defaultValue={"unknown"}>
+            <Radio.Button value="male">男</Radio.Button>
+            <Radio.Button value="female">女</Radio.Button>
+            <Radio.Button value="unknown">未指定</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item<FieldType> label="邮箱" rules={[{required: true, message: '请输入邮箱'}]} name="email">

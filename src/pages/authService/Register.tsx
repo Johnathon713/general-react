@@ -83,7 +83,7 @@ const User: React.FC = () => {
   const onSearch = (value: string) => {
     searchParams.name = value
     setLoading(true)
-    request.get('auth_service/user/page', {params: searchParams}).then(res => {
+    request.get('auth-service/user/page', {params: searchParams}).then(res => {
       setSearchResult(res.data)
       setLoading(false)
       console.log(res)
@@ -102,7 +102,7 @@ const User: React.FC = () => {
       setConfirmLoading(true);
       values.id = null
       values.regChannel = '用户管理'
-      request.post('auth_service/user/save', values).then(res => {
+      request.post('auth-service/user/save', values).then(res => {
         setOpen(false);
         setConfirmLoading(false);
         messageApi.success('新建成功')
